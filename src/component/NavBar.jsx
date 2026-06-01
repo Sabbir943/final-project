@@ -2,13 +2,28 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { Button } from "@heroui/react";
+import { Avatar, Button } from "@heroui/react";
 
 /* Gravity UI Icons */
 import { Bars, Xmark } from "@gravity-ui/icons";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
+  const router= useRouter();
   const [open, setOpen] = useState(false);
+   const { 
+        data: session, 
+     
+    } = authClient.useSession() 
+
+    const user=session?.user;
+    const handleSignOut=async()=>{
+      await authClient.signOut();
+      router.push('/home');
+
+    }
+   
 
   const navLinks = [
     {
@@ -64,14 +79,31 @@ const NavBar = () => {
 
           {/* Divider */}
           <div className="h-5 w-[1px] bg-white/20"></div>
-
-          {/* Sign In */}
-          <Link
-            href="/signin"
+          {
+            user?
+            <> <Link
+            href="/signup"
             className="text-sm font-medium text-indigo-400 hover:text-indigo-300"
           >
-            Sign In
-          </Link>
+            <Button onClick={handleSignOut} variant="danger">logOut</Button></Link>
+            <p className="text-white font-bold">{user?.name.split(' ')[1]}</p>
+             <Avatar>
+        <Avatar.Image alt="John Doe" src={user?.image} />
+        <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+      </Avatar>
+      
+            </>:
+            <> <Link
+            href="/signup"
+            className="text-sm font-medium text-indigo-400 hover:text-indigo-300"
+          >
+            Sign Up
+          </Link></>
+          }
+
+          
+         
+
 
           {/* Button */}
           <Button
@@ -112,10 +144,10 @@ const NavBar = () => {
             <div className="h-[1px] w-full bg-white/10"></div>
 
             <Link
-              href="/signin"
+              href={'/signup'}
               className="text-sm font-medium text-indigo-400"
             >
-              Sign In
+              Sign up
             </Link>
 
             <Button
