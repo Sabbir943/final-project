@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Crown, BarChart3, Plus, ArrowRight } from 'lucide-react';
 import { Siren } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Pricing() {
   const [billingPeriod, setBillingPeriod] = useState('monthly'); // 'monthly' | 'yearly'
@@ -102,8 +103,25 @@ export default function Pricing() {
         {/* Responsive Pricing Layout Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full items-stretch">
           {plans.map((plan, index) => (
-            <div 
+            <motion.div 
               key={index}
+   animate={{
+    boxShadow: [
+      "0 0 0px rgba(255,255,255,0.1)",
+      "0 0 30px rgba(255,255,255,0.25)",
+      "0 0 0px rgba(255,255,255,0.1)",
+    ],
+    scale: [1, 1.02, 1],
+  }}
+  transition={{
+    duration: 2.5,
+    repeat: Infinity,
+    ease: "easeInOut",
+  }}
+  whileHover={{
+    scale: 1.05,
+    y: -10,
+  }}         
               className={`flex flex-col justify-between p-6 md:p-8 rounded-2xl bg-neutral-900/30 border transition-all duration-300 ${
                 plan.isPopular 
                   ? 'border-neutral-700 bg-neutral-900/50 shadow-2xl scale-[1.02] md:scale-105 z-10' 
@@ -160,7 +178,7 @@ export default function Pricing() {
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
               
-            </div>
+            </motion.div>
           ))}
         </div>
 

@@ -1,8 +1,22 @@
+'use client'
 import React from 'react';
-// Note: If you prefer Hero UI or Gravity UI inputs directly, you can import them here.
-// This approach uses Tailwind-optimized elements to maintain perfect styling consistency with image_0d7763.png.
-import { Search, MapPin, Briefcase } from 'lucide-react';
 
+import { motion } from 'framer-motion';
+import { Search, MapPin, Briefcase } from 'lucide-react';
+const container = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+const letter = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+const sentence = "Building modern web experiences";
+const text = " Find Your Dream Job Today";
 export default function DearmJob() {
   const trendingPositions = [
     "Product Designer",
@@ -14,6 +28,7 @@ export default function DearmJob() {
     <section className="relative w-full min-h-[85vh] bg-black text-white flex flex-col items-center justify-center px-4 overflow-hidden select-none">
       
       {/* 1. Curved Blue Glowing Accents from image_0d7763.png */}
+
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Left Glowing Arc */}
         <div className="absolute -top-[30%] -left-[10%] w-[60%] h-[120%] rounded-full border-t border-r border-sky-500/30 blur-[2px] hidden md:block"></div>
@@ -38,8 +53,26 @@ export default function DearmJob() {
         </div>
 
         {/* Header Title */}
-        <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-white mb-6 max-w-2xl leading-[1.1]">
-          Find Your Dream Job Today
+        <h1  className="text-4xl md:text-6xl font-semibold tracking-tight text-white mb-6 max-w-2xl leading-[1.1]">
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={index}
+          initial={{ opacity: 0, y: 10 }} // Very small distance for a gentle float
+          animate={{ opacity: 1, y: 0 }}   // Smooth transition to final state
+          transition={{
+            duration: 0.6,                 // Individual letter animation takes 0.8s (slow & soft)
+            ease: "easeOut",               // Smooth deceleration
+            delay: index * 0.04,           // Creates a soft, tight letter-by-letter sequence
+            repeat: Infinity,
+            repeatDelay: 2,                // Pauses at the end before restarting the whole sentence
+          }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </h1>
+        <h1>
+         
         </h1>
 
         {/* Subtitle Description */}
